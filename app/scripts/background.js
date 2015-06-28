@@ -4,6 +4,7 @@ var availableOptions = {
   a: 'accident',
   F: 'fly',
   l: 'long',
+  r: 'reverse',
 };
 
 // Listen omnibox enter and send SL request to content script
