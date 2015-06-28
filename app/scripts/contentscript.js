@@ -71,6 +71,18 @@ var SL = {
       '        (   )                                                                   ',
     ]
   ],
+  coal: [
+    '                              ',
+    '                              ',
+    '    _________________         ',
+    '   _|                \\_____A  ',
+    ' =|                        |  ',
+    ' -|                        |  ',
+    '__|________________________|_ ',
+    '|__________________________|_ ',
+    '   |_D__D__D_|  |_D__D__D_|   ',
+    '    \\_/   \\_/    \\_/   \\_/    ',
+  ],
   status: 'garaged',
   element: null,
   speed: 10,
@@ -96,7 +108,7 @@ function runSL(options) {
   SL.element.style.zIndex = 10000; // Boo...
 
   // Setup SL content
-  SL.element.textContent = SL.body.concat(SL.wheels[0]).join('\n');
+  SL.element.textContent = SL.smokes[0].concat(SL.body.concat(SL.wheels[0])).join('\n');
 
   // Prepend to body
   document.body.insertBefore(SL.element, document.body.firstChild);
@@ -121,13 +133,26 @@ function moveSL() {
 
     // Move SL
     SL.element.style.left = (left - SL.speed) + 'px';
-    SL.element.textContent = SL.smokes[Math.floor(SL.frames / 6) % 2].concat(SL.body.concat(SL.wheels[SL.frames % 6])).join('\n');
     if (SL.options.fly) {
       SL.element.style.top = (top - SL.speed / 4) + 'px';
     }
 
+    // Compute SL text
+    var smoke = SL.smokes[Math.floor(SL.frames / 6) % 2];
+    var wheel = SL.wheels[SL.frames % 6];
+
+    // Concat coal
+    var coaledBody = SL.body.concat(wheel).map(function (line, index) {
+      return line + SL.coal[index];
+    });
+
+    // Join smoke and body
+    SL.element.textContent = smoke.concat(coaledBody).join('\n');
+
+    // Next tick
     setTimeout(moveSL, 1000 / SL.fps);
   } else {
+    // If SL passed over, remove it
     SL.element.parentNode.removeChild(SL.element);
     SL.status = 'garaged';
   }
