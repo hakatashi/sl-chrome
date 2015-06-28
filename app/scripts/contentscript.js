@@ -53,6 +53,24 @@ var SL = {
       '  \\_/      \\O=====O=====O=====O_/      \\_/            ',
     ],
   ],
+  smokes: [
+    [
+      '                      (@@) (  ) (@)  ( )  @@    ()    @     O     @     O      @',
+      '                 (   )                                                          ',
+      '             (@@@@)                                                             ',
+      '          (    )                                                                ',
+      '                                                                                ',
+      '        (@@@)                                                                   ',
+    ],
+    [
+      '                      (  ) (@@) ( )  (@)  ()    @@    O     @     O     @      O',
+      '                 (@@@)                                                          ',
+      '             (    )                                                             ',
+      '          (@@@@)                                                                ',
+      '                                                                                ',
+      '        (   )                                                                   ',
+    ]
+  ],
   status: 'garaged',
   element: null,
   speed: 10,
@@ -98,7 +116,7 @@ function moveSL() {
     SL.frames++;
 
     SL.element.style.left = (left - SL.speed) + 'px';
-    SL.element.textContent = SL.body.concat(SL.wheels[Math.floor(SL.frames) % 6]).join('\n');
+    SL.element.textContent = SL.smokes[Math.floor(SL.frames / 6) % 2].concat(SL.body.concat(SL.wheels[SL.frames % 6])).join('\n');
 
     setTimeout(moveSL, 1000 / SL.fps);
   } else {
