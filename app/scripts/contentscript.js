@@ -83,6 +83,16 @@ var SL = {
     '   |_D__D__D_|  |_D__D__D_|   ',
     '    \\_/   \\_/    \\_/   \\_/    ',
   ],
+  men: [
+    [
+      '',
+      '(O)',
+    ],
+    [
+      'Help!',
+      '\\O/',
+    ],
+  ],
   status: 'garaged',
   element: null,
   speed: 10,
@@ -145,6 +155,17 @@ function moveSL() {
     var coaledBody = SL.body.concat(wheel).map(function (line, index) {
       return line + SL.coal[index];
     });
+
+    if (SL.options.accident) {
+      // Take men in
+      [{x: 43, y: 3}, {x: 47, y: 3}].forEach(function (position, index) {
+        var status = Math.floor((SL.frames + index * 10) / 15) % 2;
+        SL.men[status].forEach(function (line, y) {
+          y += position.y;
+          coaledBody[y] = coaledBody[y].slice(0, position.x) + line + coaledBody[y].slice(position.x + line.length);
+        });
+      });
+    }
 
     // Join smoke and body
     SL.element.textContent = smoke.concat(coaledBody).join('\n');
