@@ -53,33 +53,55 @@ var SL = {
       '  \\_/      \\_O=====O=====O=====O/      \\_/            ',
     ],
   ],
+  status: 'garaged',
+  element: null,
+  speed: 10,
+  fps: 10,
 };
 
 // Run SL, run!
 function runSL(options) {
   // Setup SL element
-  var el = document.createElement('pre');
-  el.style.position = 'fixed';
-  el.style.left = 0;
-  el.style.top = 0;
-  el.style.background = 'black';
-  el.style.color = 'white';
-  el.style.lineHeight = '1em';
-  el.style.font = 'bold 18px monospace';
-  el.style.zIndex = 10000;
+  SL.element = document.createElement('pre');
+  SL.element.style.position = 'fixed';
+  SL.element.style.left = '100%';
+  SL.element.style.top = 0;
+  SL.element.style.background = 'white';
+  SL.element.style.color = 'black';
+  SL.element.style.lineHeight = '1em';
+  SL.element.style.font = 'bold 18px monospace';
+  SL.element.style.zIndex = 10000; // Boo...
 
   // Setup SL content
-  el.textContent = SL.body.concat(SL.wheels[0]).join('\n');
+  SL.element.textContent = SL.body.concat(SL.wheels[0]).join('\n');
 
   // Prepend to body
-  document.body.insertBefore(el, document.body.firstChild);
+  document.body.insertBefore(SL.element, document.body.firstChild);
+
+  SL.status = 'running';
+
+  // Trigger moving SL
+  moveSL();
 
   return options;
 }
 
+function moveSL() {
+  var left = parseFloat(getComputedStyle(SL.element).left);
+  var width = parseFloat(getComputedStyle(SL.element).width);
+
+  if (left > -width) {
+    SL.element.style.left = (left - SL.speed) + 'px';
+    setTimeout(moveSL, 1 / SL.fps);
+  } else {
+    SL.element.parentNode.removeChild(SL.element);
+    SL.status = 'garaged';
+  }
+}
+
 // Listen for SL request from omnibox
 chrome.runtime.onMessage.addListener(function (request) {
-  if (request.mode === 'run') {
+  if (request.mode === 'run' && SL.status === 'garaged') {
     runSL(request.options);
   }
 });
