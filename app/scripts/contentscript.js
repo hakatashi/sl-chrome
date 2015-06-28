@@ -76,6 +76,7 @@ var SL = {
   speed: 10,
   fps: 30,
   frames: 0,
+  options: {},
 };
 
 // Run SL, run!
@@ -84,13 +85,14 @@ function runSL(options) {
   SL.element = document.createElement('pre');
   SL.element.style.position = 'fixed';
   SL.element.style.left = '100%';
-  SL.element.style.top = '30%';
+  SL.element.style.top = options.fly ? '60%' : '30%';
   SL.element.style.background = '#333';
   SL.element.style.color = 'white';
   SL.element.style.lineHeight = '1em';
   SL.element.style.font = 'bold 18px monospace';
   SL.element.style.padding = '30px';
   SL.element.style.borderRadius = '5px';
+  SL.element.style.textAlign = 'left';
   SL.element.style.zIndex = 10000; // Boo...
 
   // Setup SL content
@@ -99,6 +101,7 @@ function runSL(options) {
   // Prepend to body
   document.body.insertBefore(SL.element, document.body.firstChild);
 
+  SL.options = options;
   SL.status = 'running';
   SL.frames = 0;
 
@@ -110,13 +113,18 @@ function runSL(options) {
 
 function moveSL() {
   var left = parseFloat(getComputedStyle(SL.element).left);
+  var top = parseFloat(getComputedStyle(SL.element).top);
   var width = parseFloat(getComputedStyle(SL.element).width);
 
   if (left > -width) {
     SL.frames++;
 
+    // Move SL
     SL.element.style.left = (left - SL.speed) + 'px';
     SL.element.textContent = SL.smokes[Math.floor(SL.frames / 6) % 2].concat(SL.body.concat(SL.wheels[SL.frames % 6])).join('\n');
+    if (SL.options.fly) {
+      SL.element.style.top = (top - SL.speed / 4) + 'px';
+    }
 
     setTimeout(moveSL, 1000 / SL.fps);
   } else {
