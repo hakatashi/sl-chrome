@@ -28,10 +28,10 @@ chrome.omnibox.onInputEntered.addListener(function (text) {
         }
       });
     }
-  })
+  });
 
-  // Send message to current window
+  // Send message to current tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {text: text, options: options});
+    chrome.tabs.sendMessage(tabs[0].id, {mode: 'run', text: text, options: options});
   });
 });
