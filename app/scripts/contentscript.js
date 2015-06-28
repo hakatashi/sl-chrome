@@ -171,7 +171,7 @@ function moveSL() {
     if (SL.options.accident) {
       // Take men in
       [{x: 43, y: 3}, {x: 47, y: 3}].forEach(function (position, index) {
-        var status = Math.floor((SL.frames - index * 10) / 15) % 2;
+        var status = (Math.floor((SL.frames - index * 10) / 15) % 2 + 2) % 2;
         SL.men[status].forEach(function (line, y) {
           y += position.y;
           coaledBody[y] = coaledBody[y].slice(0, position.x) + line + coaledBody[y].slice(position.x + line.length);
