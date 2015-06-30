@@ -5,6 +5,7 @@
   "devDependencies": {
     "chai": "~3.0.0",
     "mocha": "~2.2.5",
-    "chrome-mock": "sethmcl/chrome-mock#~0.0.9"
+    "chrome-mock": "sethmcl/chrome-mock#~0.0.9",
+    "bind-polyfill": "~1.0.0"
   }
 }

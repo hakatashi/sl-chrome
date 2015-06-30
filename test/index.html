@@ -7,6 +7,8 @@
 </head>
 <body>
   <div id="mocha"></div>
+  <!-- PhantomJS <2.0 is missing Function.prototype.bind. Fix it. -->
+  <script src="bower_components/bind-polyfill/index.js"></script>
   <script src="bower_components/mocha/mocha.js"></script>
   <script src="bower_components/chrome-mock/browser.js"></script>
   <script>mocha.setup('bdd');</script>
