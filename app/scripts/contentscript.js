@@ -93,6 +93,54 @@ var SL = {
       '\\O/',
     ],
   ],
+  smallBody: [
+    '     ++      +------ ',
+    '     ||      |+-+ |  ',
+    '   /---------|| | |  ',
+    '  + ========  +-+ |  ',
+  ],
+  smallWheels: [
+    [
+      ' _|--/~\\------/~\\-+  ',
+      '//// O========O_/    ',
+    ],
+    [
+      ' _|--/~\\------/~\\-+  ',
+      '//// \\O========O/    ',
+    ],
+    [
+      ' _|--/~\\------/~\\-+  ',
+      '//// \\_O========O    ',
+    ],
+    [
+      ' _|--/~O========O-+  ',
+      '//// \\_/      \\_/    ',
+    ],
+    [
+      ' _|--/O========O\\-+  ',
+      '//// \\_/      \\_/    ',
+    ],
+    [
+      ' _|--O========O~\\-+  ',
+      '//// \\_/      \\_/    ',
+    ],
+  ],
+  smallCoal: [
+    '____                 ',
+    '|   \\@@@@@@@@@@@     ',
+    '|    \\@@@@@@@@@@@@@_ ',
+    '|                  | ',
+    '|__________________| ',
+    '   (O)       (O)     ',
+  ],
+  smallCar: [
+    '____________________ ',
+    '|  ___ ___ ___ ___ | ',
+    '|  |_| |_| |_| |_| | ',
+    '|__________________| ',
+    '|__________________| ',
+    '   (O)        (O)    ',
+  ],
   status: 'garaged',
   element: null,
   speed: 10,
@@ -159,28 +207,42 @@ function moveSL() {
       SL.element.style.top = (top - SL.speed / 4) + 'px';
     }
 
-    // Compute SL text
-    var smoke = SL.smokes[Math.floor(SL.frames / 6) % 2];
-    var wheel = SL.wheels[SL.frames % 6];
+    var smoke = null;
+    var wheel = null;
+    var coaledBody = null;
 
-    // Concat coal
-    var coaledBody = SL.body.concat(wheel).map(function (line, index) {
-      return line + SL.coal[index];
-    });
+    if (SL.options.long) {
+      // long
+      wheel = SL.smallWheels[SL.frames % 6];
 
-    if (SL.options.accident) {
-      // Take men in
-      [{x: 43, y: 3}, {x: 47, y: 3}].forEach(function (position, index) {
-        var status = (Math.floor((SL.frames - index * 10) / 15) % 2 + 2) % 2;
-        SL.men[status].forEach(function (line, y) {
-          y += position.y;
-          coaledBody[y] = coaledBody[y].slice(0, position.x) + line + coaledBody[y].slice(position.x + line.length);
-        });
+      // Concat coal
+      SL.element.textContent = SL.smallBody.concat(wheel).map(function (line, index) {
+        return line + SL.smallCoal[index] + SL.smallCar[index] + SL.smallCar[index];
+      }).join('\n');
+    } else {
+      // Compute SL text
+      smoke = SL.smokes[Math.floor(SL.frames / 6) % 2];
+      wheel = SL.wheels[SL.frames % 6];
+
+      // Concat coal
+      coaledBody = SL.body.concat(wheel).map(function (line, index) {
+        return line + SL.coal[index];
       });
-    }
 
-    // Join smoke and body
-    SL.element.textContent = smoke.concat(coaledBody).join('\n');
+      if (SL.options.accident) {
+        // Take men in
+        [{x: 43, y: 3}, {x: 47, y: 3}].forEach(function (position, index) {
+          var status = (Math.floor((SL.frames - index * 10) / 15) % 2 + 2) % 2;
+          SL.men[status].forEach(function (line, y) {
+            y += position.y;
+            coaledBody[y] = coaledBody[y].slice(0, position.x) + line + coaledBody[y].slice(position.x + line.length);
+          });
+        });
+      }
+
+      // Join smoke and body
+      SL.element.textContent = smoke.concat(coaledBody).join('\n');
+    }
 
     // Reverse it
     if (SL.options.reverse) {
