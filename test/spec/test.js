@@ -3,11 +3,9 @@
 (function () {
   'use strict';
 
-  describe('Give it some context', function () {
-    describe('maybe a bit more context here', function () {
-      it('should run here few assertions', function () {
-
-      });
+  describe('Basic Test', function () {
+    it('should run SL (without any global leaks)', function () {
+      chrome.runtime.onMessage.trigger({mode: 'run', options: {}});
     });
   });
 })();

@@ -70,10 +70,7 @@ module.exports = function (grunt) {
       test: {
         options: {
           open: false,
-          base: [
-            'test',
-            '<%= config.app %>'
-          ]
+          base: '.'
         }
       }
     },
@@ -111,7 +108,7 @@ module.exports = function (grunt) {
       all: {
         options: {
           run: true,
-          urls: ['http://localhost:<%= connect.options.port %>/index.html']
+          urls: ['http://localhost:<%= connect.options.port %>/test/index.html']
         }
       }
     },
