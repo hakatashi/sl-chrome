@@ -135,6 +135,7 @@ module.exports = function (grunt) {
           cwd: '<%= config.app %>',
           dest: '<%= config.dist %>',
           src: [
+            'manifest.json',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif,png,jpg,jpeg,svg}',
             '{,*/}*.html',
@@ -158,7 +159,7 @@ module.exports = function (grunt) {
         options: {
           archive: function() {
             var manifest = grunt.file.readJSON('app/manifest.json');
-            return 'package/sl chrome-' + manifest.version + '.zip';
+            return 'package/sl-chrome-' + manifest.version + '.zip';
           }
         },
         files: [{
