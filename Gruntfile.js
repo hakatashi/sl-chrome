@@ -115,6 +115,9 @@ module.exports = function (grunt) {
 
     uglify: {
       dist: {
+        options: {
+          preserveComments: 'some'
+        },
         files: [{
           expand: true,
           cwd: '<%= config.app %>',

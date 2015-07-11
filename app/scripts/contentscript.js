@@ -1,8 +1,9 @@
 (function () {
   'use strict';
 
-  /**
+  /*!
    * SL-chrome
+   * https://github.com/hakatashi/sl-chrome
    *
    * @author  Koki Takahashi (hakatashi)
    * @license MIT
