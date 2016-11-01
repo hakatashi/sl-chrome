@@ -26,7 +26,7 @@
     "time-grunt": "~1.4.0"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">= 4"
   },
   "description": "SL command implementation of Chrome.",
   "directories": {
