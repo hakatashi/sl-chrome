@@ -1,6 +1,8 @@
 SL for Chrome
 =============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/hakatashi/sl-chrome.svg)](https://greenkeeper.io/)
+
 ![Screenshot](assets/screenshot01.png)
 
 Run SL run, everywhere!
